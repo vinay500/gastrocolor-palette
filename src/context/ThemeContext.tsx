@@ -83,7 +83,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 };
 
 // Helper function to convert hex to HSL
-function hexToHSL(hex: string): { h: number; s: number; l: number } {
+export function hexToHSL(hex: string): { h: number; s: number; l: number } {
   // Remove the # if present
   hex = hex.replace(/^#/, '');
 
@@ -99,7 +99,7 @@ function hexToHSL(hex: string): { h: number; s: number; l: number } {
   // Calculate lightness
   let l = (max + min) / 2;
   
-  let h, s;
+  let h = 0, s = 0;
   
   if (max === min) {
     // Achromatic (gray)
