@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Activity, Stethoscope, Microscope, ClipboardCheck, Flask, Pill } from 'lucide-react';
+import { Activity, Stethoscope, Microscope, ClipboardCheck, FlaskConical, Pill } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const services = [
@@ -25,7 +25,7 @@ const services = [
     description: "Regular colorectal cancer screenings and early detection procedures.",
   },
   {
-    icon: <Flask className="h-10 w-10" />,
+    icon: <FlaskConical className="h-10 w-10" />,
     title: "Nutritional Counseling",
     description: "Personalized dietary advice for managing digestive conditions and improving gut health.",
   },
