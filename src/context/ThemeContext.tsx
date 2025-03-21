@@ -7,6 +7,7 @@ type ThemeContextType = {
   setPrimaryColor: (color: string) => void;
   setSecondaryColor: (color: string) => void;
   resetColors: () => void;
+  hexToHSL: (hex: string) => { h: number; s: number; l: number };
 };
 
 const DEFAULT_PRIMARY = "#1E88E5"; // Default blue
@@ -18,6 +19,7 @@ const ThemeContext = createContext<ThemeContextType>({
   setPrimaryColor: () => {},
   setSecondaryColor: () => {},
   resetColors: () => {},
+  hexToHSL: () => ({ h: 0, s: 0, l: 0 }),
 });
 
 export const useTheme = () => useContext(ThemeContext);
@@ -75,6 +77,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setPrimaryColor,
         setSecondaryColor,
         resetColors,
+        hexToHSL,
       }}
     >
       {children}
