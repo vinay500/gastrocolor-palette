@@ -30,9 +30,8 @@ const ColorPicker = () => {
   // Handle manual hex code input
   const handlePrimaryHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.startsWith('#') && e.target.value.length <= 7) {
+      setPrimaryColor(e.target.value);
       if (e.target.value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
-        setPrimaryColor(e.target.value);
-      } else {
         setPrimaryColor(e.target.value);
       }
     }
@@ -40,9 +39,8 @@ const ColorPicker = () => {
   
   const handleSecondaryHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.startsWith('#') && e.target.value.length <= 7) {
+      setSecondaryColor(e.target.value);
       if (e.target.value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
-        setSecondaryColor(e.target.value);
-      } else {
         setSecondaryColor(e.target.value);
       }
     }
@@ -56,7 +54,7 @@ const ColorPicker = () => {
             <PaintBucket className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="glass p-5 rounded-xl shadow-xl w-[340px] border border-white/40" align="end">
+        <PopoverContent className="glass p-5 rounded-xl shadow-xl w-[300px] border border-white/40" align="end">
           <div className="space-y-6">
             <div className="text-center mb-3">
               <h3 className="font-display font-semibold">Customize Theme</h3>
@@ -72,7 +70,7 @@ const ColorPicker = () => {
             />
             
             {/* Secondary Color Section */}
-            <div className="pt-2 border-t border-gray-100">
+            <div className="pt-4 border-t border-gray-100">
               <ColorSettings 
                 label="Secondary Color"
                 color={secondaryColor}

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Input } from '@/components/ui/input';
 
 interface ColorInputProps {
   color: string;
@@ -8,17 +9,17 @@ interface ColorInputProps {
 
 const ColorInput = ({ color, onChange }: ColorInputProps) => {
   return (
-    <div className="relative flex h-9 overflow-hidden rounded-md">
+    <div className="flex items-center space-x-2">
       <div
-        className="w-10 h-full pointer-events-none"
+        className="w-8 h-8 rounded-md border border-gray-200"
         style={{ backgroundColor: color }}
       ></div>
-      <input
+      <Input
         type="text"
         value={color}
         onChange={onChange}
         placeholder="#000000"
-        className="flex-1 px-3 py-1 bg-white/60 backdrop-blur-sm text-sm"
+        className="w-full"
       />
     </div>
   );

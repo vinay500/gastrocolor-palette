@@ -38,19 +38,16 @@ const ColorWheel = ({ color, onChange }: ColorWheelProps) => {
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
-    // Draw color wheel with varying brightness
+    // Draw color wheel
     for (let angle = 0; angle < 360; angle++) {
       for (let s = 0; s < radius; s++) {
         const rad = (angle * Math.PI) / 180;
         const x = centerX + s * Math.cos(rad);
         const y = centerY + s * Math.sin(rad);
         
-        // Calculate brightness based on distance from center
-        const brightness = 1 - (s / radius) * 0.5;
-        
         ctx.beginPath();
         ctx.arc(x, y, 1.5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = `hsl(${angle}, ${(s / radius) * 100}%, ${brightness * 50}%)`;
+        ctx.fillStyle = `hsl(${angle}, ${(s / radius) * 100}%, 50%)`;
         ctx.fill();
       }
     }
@@ -59,21 +56,23 @@ const ColorWheel = ({ color, onChange }: ColorWheelProps) => {
     const rgb = hexToRgb(color);
     const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
     
-    const selectorRad = (hsl.h * Math.PI) / 180;
-    const selectorDist = hsl.s * radius;
-    const selectorX = centerX + selectorDist * Math.cos(selectorRad);
-    const selectorY = centerY + selectorDist * Math.sin(selectorRad);
+    if (hsl.s > 0) { // Only draw selector for non-grayscale colors
+      const selectorRad = (hsl.h * Math.PI) / 180;
+      const selectorDist = hsl.s * radius / 100;
+      const selectorX = centerX + selectorDist * Math.cos(selectorRad);
+      const selectorY = centerY + selectorDist * Math.sin(selectorRad);
 
-    ctx.beginPath();
-    ctx.arc(selectorX, selectorY, 6, 0, 2 * Math.PI, false);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(selectorX, selectorY, 5, 0, 2 * Math.PI, false);
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(selectorX, selectorY, 6, 0, 2 * Math.PI, false);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(selectorX, selectorY, 5, 0, 2 * Math.PI, false);
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
   }, [color]);
 
   // Convert RGB to HSL
@@ -100,36 +99,39 @@ const ColorWheel = ({ color, onChange }: ColorWheelProps) => {
       h /= 6;
     }
 
-    return { h: h * 360, s: s, l: l };
+    return { h: h * 360, s: s * 100, l: l * 100 };
   };
 
   // Convert HSL to Hex
   const hslToHex = (h: number, s: number, l: number) => {
-    h /= 360;
-    let r, g, b;
+    s /= 100;
+    l /= 100;
 
-    if (s === 0) {
-      r = g = b = l;
-    } else {
-      const hue2rgb = (p: number, q: number, t: number) => {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1/6) return p + (q - p) * 6 * t;
-        if (t < 1/2) return q;
-        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-        return p;
-      };
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+    let r = 0, g = 0, b = 0;
 
-      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      const p = 2 * l - q;
-      
-      r = hue2rgb(p, q, h + 1/3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
+    if (0 <= h && h < 60) {
+      r = c; g = x; b = 0;
+    } else if (60 <= h && h < 120) {
+      r = x; g = c; b = 0;
+    } else if (120 <= h && h < 180) {
+      r = 0; g = c; b = x;
+    } else if (180 <= h && h < 240) {
+      r = 0; g = x; b = c;
+    } else if (240 <= h && h < 300) {
+      r = x; g = 0; b = c;
+    } else if (300 <= h && h < 360) {
+      r = c; g = 0; b = x;
     }
 
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+
     const toHex = (x: number) => {
-      const hex = Math.round(x * 255).toString(16);
+      const hex = Math.round(x).toString(16);
       return hex.length === 1 ? '0' + hex : hex;
     };
 
@@ -161,13 +163,11 @@ const ColorWheel = ({ color, onChange }: ColorWheelProps) => {
     if (angle < 0) angle += 360; // Convert to 0-360 range
     
     // Calculate distance from center (for saturation)
-    const distance = Math.sqrt(x * x + y * y);
+    let distance = Math.sqrt(x * x + y * y);
     const saturationValue = Math.min(1, Math.max(0, distance / radius));
     
     // Calculate color based on angle (hue) and distance (saturation)
-    // Use a fixed lightness value for vivid colors
-    const lightness = 0.5 - (saturationValue * 0.15); // Adjust lightness to make colors more vivid
-    const newColor = hslToHex(angle, saturationValue, lightness);
+    const newColor = hslToHex(angle, saturationValue * 100, 50);
     
     onChange(newColor);
   };
@@ -186,7 +186,7 @@ const ColorWheel = ({ color, onChange }: ColorWheelProps) => {
   return (
     <div 
       ref={containerRef}
-      className="relative rounded-full overflow-hidden cursor-pointer border border-gray-200"
+      className="relative rounded-full overflow-hidden cursor-pointer"
       style={{ width: '150px', height: '150px' }}
     >
       <canvas 
