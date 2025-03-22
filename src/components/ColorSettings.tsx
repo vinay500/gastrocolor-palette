@@ -3,6 +3,7 @@ import React from 'react';
 import ColorInput from './ColorInput';
 import ColorWheel from './ColorWheel';
 import { Label } from '@/components/ui/label';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ColorSettingsProps {
   label: string;
@@ -17,8 +18,10 @@ const ColorSettings = ({
   onColorChange,
   onHexChange
 }: ColorSettingsProps) => {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <Label className="text-sm font-medium flex items-center gap-2">
         <span 
           className="w-3 h-3 rounded-full"
@@ -27,13 +30,13 @@ const ColorSettings = ({
         {label}
       </Label>
       
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center">
         <ColorWheel 
           color={color} 
           onChange={onColorChange} 
         />
         
-        <div className="w-full">
+        <div className="w-full mt-2">
           <ColorInput color={color} onChange={onHexChange} />
         </div>
       </div>

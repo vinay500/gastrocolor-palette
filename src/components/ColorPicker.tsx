@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PaintBucket, RefreshCw } from 'lucide-react';
 import ColorSettings from './ColorSettings';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ColorPicker = () => {
   const { 
@@ -16,6 +17,7 @@ const ColorPicker = () => {
   } = useTheme();
   
   const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   // Handle primary color changes
   const handlePrimaryColorChange = (color: string) => {
@@ -54,23 +56,24 @@ const ColorPicker = () => {
             <PaintBucket className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="glass p-5 rounded-xl shadow-xl w-[300px] border border-white/40" align="end">
-          <div className="space-y-6">
+        <PopoverContent className="glass p-5 rounded-xl shadow-xl border border-white/40" align="end" side="left" 
+          style={{ width: isMobile ? 'calc(100vw - 40px)' : '400px' }}>
+          <div className="space-y-4">
             <div className="text-center mb-3">
               <h3 className="font-display font-semibold">Customize Theme</h3>
               <p className="text-sm text-muted-foreground">Choose your preferred colors</p>
             </div>
             
-            {/* Primary Color Section */}
-            <ColorSettings 
-              label="Primary Color"
-              color={primaryColor}
-              onColorChange={handlePrimaryColorChange}
-              onHexChange={handlePrimaryHexChange}
-            />
-            
-            {/* Secondary Color Section */}
-            <div className="pt-4 border-t border-gray-100">
+            <div className={`grid ${isMobile ? 'grid-cols-1 gap-6' : 'grid-cols-2 gap-4'}`}>
+              {/* Primary Color Section */}
+              <ColorSettings 
+                label="Primary Color"
+                color={primaryColor}
+                onColorChange={handlePrimaryColorChange}
+                onHexChange={handlePrimaryHexChange}
+              />
+              
+              {/* Secondary Color Section */}
               <ColorSettings 
                 label="Secondary Color"
                 color={secondaryColor}
@@ -83,7 +86,7 @@ const ColorPicker = () => {
               variant="ghost" 
               size="sm" 
               onClick={resetColors} 
-              className="w-full flex items-center justify-center text-sm"
+              className="w-full mt-2 flex items-center justify-center text-sm"
             >
               <RefreshCw className="mr-2 h-4 w-4" />
               Reset to Default
