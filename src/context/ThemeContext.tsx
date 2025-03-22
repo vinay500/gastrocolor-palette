@@ -34,18 +34,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const setPrimaryColor = (color: string) => {
-    // Ensure color is a valid hex value
+    setPrimaryColorState(color);
+    
+    // Update localStorage and CSS variables only for valid hex colors
     if (color.match(/^#[0-9A-Fa-f]{6}$/)) {
-      setPrimaryColorState(color);
       localStorage.setItem("primaryColor", color);
       updateCssVariables(color, secondaryColor);
     }
   };
 
   const setSecondaryColor = (color: string) => {
-    // Ensure color is a valid hex value
+    setSecondaryColorState(color);
+    
+    // Update localStorage and CSS variables only for valid hex colors
     if (color.match(/^#[0-9A-Fa-f]{6}$/)) {
-      setSecondaryColorState(color);
       localStorage.setItem("secondaryColor", color);
       updateCssVariables(primaryColor, color);
     }

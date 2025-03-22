@@ -29,22 +29,25 @@ const ColorPicker = () => {
     setSecondaryColor(color);
   };
 
-  // Handle manual hex code input
+  // Handle manual hex code input for primary color
   const handlePrimaryHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.startsWith('#') && e.target.value.length <= 7) {
-      setPrimaryColor(e.target.value);
-      if (e.target.value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
-        setPrimaryColor(e.target.value);
-      }
+    const value = e.target.value;
+    setPrimaryColor(value);
+    
+    // If it's a valid hex code and complete, update the color
+    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+      setPrimaryColor(value);
     }
   };
   
+  // Handle manual hex code input for secondary color
   const handleSecondaryHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.startsWith('#') && e.target.value.length <= 7) {
-      setSecondaryColor(e.target.value);
-      if (e.target.value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
-        setSecondaryColor(e.target.value);
-      }
+    const value = e.target.value;
+    setSecondaryColor(value);
+    
+    // If it's a valid hex code and complete, update the color
+    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+      setSecondaryColor(value);
     }
   };
 
