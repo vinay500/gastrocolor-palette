@@ -34,15 +34,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const setPrimaryColor = (color: string) => {
-    setPrimaryColorState(color);
-    localStorage.setItem("primaryColor", color);
-    updateCssVariables(color, secondaryColor);
+    // Ensure color is a valid hex value
+    if (color.match(/^#[0-9A-Fa-f]{6}$/)) {
+      setPrimaryColorState(color);
+      localStorage.setItem("primaryColor", color);
+      updateCssVariables(color, secondaryColor);
+    }
   };
 
   const setSecondaryColor = (color: string) => {
-    setSecondaryColorState(color);
-    localStorage.setItem("secondaryColor", color);
-    updateCssVariables(primaryColor, color);
+    // Ensure color is a valid hex value
+    if (color.match(/^#[0-9A-Fa-f]{6}$/)) {
+      setSecondaryColorState(color);
+      localStorage.setItem("secondaryColor", color);
+      updateCssVariables(primaryColor, color);
+    }
   };
 
   const resetColors = () => {

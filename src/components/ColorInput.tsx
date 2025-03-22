@@ -17,6 +17,7 @@ const ColorInput = ({ color, onChange }: ColorInputProps) => {
         type="text"
         value={color}
         onChange={onChange}
+        placeholder="#000000"
         className="flex-1 px-3 py-1 bg-white/60 backdrop-blur-sm text-sm"
       />
     </div>
