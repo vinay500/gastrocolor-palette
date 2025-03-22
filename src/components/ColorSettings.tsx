@@ -18,6 +18,7 @@ interface ColorSettingsProps {
   onSaturationChange: (value: number[]) => void;
   onLightnessChange: (value: number[]) => void;
   onHexChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onColorWheelChange: (hue: number, saturation: number) => void;
 }
 
 const ColorSettings = ({
@@ -27,7 +28,8 @@ const ColorSettings = ({
   onHueChange,
   onSaturationChange,
   onLightnessChange,
-  onHexChange
+  onHexChange,
+  onColorWheelChange
 }: ColorSettingsProps) => {
   return (
     <div className="space-y-2">
@@ -39,29 +41,17 @@ const ColorSettings = ({
         {label}
       </label>
       
-      <div className="flex items-center gap-3">
-        <ColorWheel hue={hslColor.h} />
+      <div className="flex items-center gap-4">
+        <ColorWheel 
+          hue={hslColor.h} 
+          saturation={hslColor.s} 
+          onChange={onColorWheelChange} 
+        />
         
         <div className="flex-1 space-y-4">
           <ColorInput color={color} onChange={onHexChange} />
           
           <div className="space-y-2">
-            <HSLColorSlider 
-              label="Hue" 
-              value={hslColor.h} 
-              max={360} 
-              onChange={onHueChange} 
-              unit="°"
-            />
-            
-            <HSLColorSlider 
-              label="Saturation" 
-              value={hslColor.s} 
-              max={100} 
-              onChange={onSaturationChange} 
-              unit="%"
-            />
-            
             <HSLColorSlider 
               label="Lightness" 
               value={hslColor.l} 

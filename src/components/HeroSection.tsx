@@ -119,8 +119,8 @@ const HeroSection = () => {
               
               <div className="relative z-10 overflow-hidden rounded-2xl shadow-xl bg-gradient-to-br from-white to-muted/50 border border-white/20">
                 <img 
-                  src="https://images.unsplash.com/photo-1581056771107-24695e5771f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                  alt="Doctor with advanced medical equipment"
+                  src="https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                  alt="Modern gastroenterology clinic with advanced medical equipment"
                   className="w-full h-auto object-cover"
                 />
               </div>

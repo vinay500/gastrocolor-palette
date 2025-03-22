@@ -51,6 +51,13 @@ const ColorPicker = () => {
     setPrimaryColor(hslToHex(newHSL.h, newHSL.s, newHSL.l));
   };
 
+  // Handle primary color wheel change
+  const handlePrimaryColorWheelChange = (hue: number, saturation: number) => {
+    const newHSL = { ...primaryHSL, h: hue, s: saturation };
+    setPrimaryHSL(newHSL);
+    setPrimaryColor(hslToHex(newHSL.h, newHSL.s, newHSL.l));
+  };
+
   // Handle secondary color HSL changes
   const handleSecondaryHueChange = (value: number[]) => {
     const newHSL = { ...secondaryHSL, h: value[0] };
@@ -66,6 +73,13 @@ const ColorPicker = () => {
   
   const handleSecondaryLightnessChange = (value: number[]) => {
     const newHSL = { ...secondaryHSL, l: value[0] };
+    setSecondaryHSL(newHSL);
+    setSecondaryColor(hslToHex(newHSL.h, newHSL.s, newHSL.l));
+  };
+
+  // Handle secondary color wheel change
+  const handleSecondaryColorWheelChange = (hue: number, saturation: number) => {
+    const newHSL = { ...secondaryHSL, h: hue, s: saturation };
     setSecondaryHSL(newHSL);
     setSecondaryColor(hslToHex(newHSL.h, newHSL.s, newHSL.l));
   };
@@ -109,7 +123,7 @@ const ColorPicker = () => {
             <PaintBucket className="h-5 w-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="glass p-5 rounded-xl shadow-xl w-80 border border-white/40" align="end">
+        <PopoverContent className="glass p-5 rounded-xl shadow-xl w-[340px] border border-white/40" align="end">
           <div className="space-y-6">
             <div className="text-center mb-3">
               <h3 className="font-display font-semibold">Customize Theme</h3>
@@ -125,6 +139,7 @@ const ColorPicker = () => {
               onSaturationChange={handlePrimarySaturationChange}
               onLightnessChange={handlePrimaryLightnessChange}
               onHexChange={handlePrimaryHexChange}
+              onColorWheelChange={handlePrimaryColorWheelChange}
             />
             
             {/* Secondary Color Section */}
@@ -137,6 +152,7 @@ const ColorPicker = () => {
                 onSaturationChange={handleSecondarySaturationChange}
                 onLightnessChange={handleSecondaryLightnessChange}
                 onHexChange={handleSecondaryHexChange}
+                onColorWheelChange={handleSecondaryColorWheelChange}
               />
             </div>
             
